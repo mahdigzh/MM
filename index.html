@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M.M Forever</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+  :root{
+    --bg-top:#fbe8ee;
+    --bg-bottom:#f3d9e6;
+    --card:#fffdfb;
+    --ink:#5a4452;
+    --ink-soft:#8a7480;
+    --accent:#d98aa5;
+    --accent-soft:#e7b6c7;
+    --gold:#c9a15a;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 10%, #fff3f6 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, #fdeaf0 0%, transparent 50%),
+      linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+    min-height:100vh;
+    font-family:'Cormorant Garamond', serif;
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* floating ambient dots */
+  .ambient{position:fixed; inset:0; pointer-events:none; z-index:0;}
+  .dot{position:absolute; border-radius:50%; background:rgba(255,255,255,0.55); filter:blur(1px); animation:drift 14s ease-in-out infinite;}
+  @keyframes drift{
+    0%,100%{transform:translateY(0) translateX(0);}
+    50%{transform:translateY(-18px) translateX(10px);}
+  }
+
+  header{
+    text-align:center;
+    padding:64px 20px 28px;
+    position:relative;
+    z-index:2;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:clamp(28px,5vw,42px);
+    letter-spacing:0.12em;
+    color:var(--accent);
+  }
+  .brand .line{height:1px; width:60px; background:linear-gradient(90deg, transparent, var(--gold), transparent);}
+  .forever{
+    margin-top:6px;
+    font-size:13px;
+    letter-spacing:0.35em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .subtitle{
+    margin-top:22px;
+    font-style:italic;
+    font-size:clamp(20px,3vw,28px);
+    color:var(--ink);
+  }
+
+  .gallery{
+    position:relative;
+    z-index:2;
+    max-width:1500px;
+    margin:0 auto;
+    padding:20px 40px 120px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:70px 90px;
+  }
+  @media (max-width:1100px){
+    .gallery{grid-template-columns:repeat(2,1fr); padding:20px 24px 100px;}
+  }
+  @media (max-width:680px){
+    .gallery{grid-template-columns:1fr; gap:60px; padding:10px 20px 90px;}
+  }
+
+  .polaroid{
+    background:var(--card);
+    padding:18px 18px 26px;
+    border-radius:3px;
+    box-shadow:
+      0 2px 4px rgba(90,60,70,0.08),
+      0 18px 34px rgba(90,60,70,0.18);
+    transform:rotate(var(--r,0deg));
+    transition:transform .35s ease, box-shadow .35s ease;
+    position:relative;
+  }
+  .polaroid:hover{
+    transform:rotate(0deg) scale(1.035) translateY(-4px);
+    box-shadow:0 24px 46px rgba(90,60,70,0.26);
+    z-index:5;
+  }
+  .polaroid:nth-child(1){--r:-2deg;}
+  .polaroid:nth-child(2){--r:1.5deg; margin-top:50px;}
+  .polaroid:nth-child(3){--r:-1deg;}
+  .polaroid:nth-child(4){--r:2deg;}
+  .polaroid:nth-child(5){--r:-2.5deg; margin-top:30px;}
+  .polaroid:nth-child(6){--r:1deg;}
+  .polaroid:nth-child(7){--r:-1.5deg; margin-top:20px;}
+  .polaroid:nth-child(8){--r:2.5deg;}
+  .polaroid:nth-child(9){--r:-1deg; margin-top:40px;}
+
+  .frame{
+    width:100%;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    background:#eee2e6;
+  }
+  .frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .caption{
+    text-align:center;
+    margin-top:16px;
+    font-style:italic;
+    font-size:19px;
+    color:var(--ink);
+    letter-spacing:0.01em;
+  }
+  .flower{
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:26px;
+    height:26px;
+    z-index:3;
+  }
+
+  footer{
+    text-align:center;
+    padding:0 20px 70px;
+    position:relative;
+    z-index:2;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:18px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="ambient" id="ambient"></div>
+
+  <header>
+    <div class="brand"><span class="line"></span> M . M <span class="line"></span></div>
+    <div class="forever">forever</div>
+    <div class="subtitle">every little moment, kept</div>
+  </header>
+
+  <main class="gallery">
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/hug.jpg" alt="The hug I never let go of"></div>
+      <figcaption class="caption">The hug I never let go of</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/golden.jpg" alt="Golden hour, you"></div>
+      <figcaption class="caption">Golden hour, you</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/latenight.jpg" alt="Late-night wanderers"></div>
+      <figcaption class="caption">Late-night wanderers</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/dressedup.jpg" alt="All dressed up with you"></div>
+      <figcaption class="caption">All dressed up with you</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/closer.jpg" alt="Closer than close"></div>
+      <figcaption class="caption">Closer than close</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/valentine.jpg" alt="Our first Valentine"></div>
+      <figcaption class="caption">Our first Valentine</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/partners.jpg" alt="Partners in everything"></div>
+      <figcaption class="caption">Partners in everything</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/littledidweknow.jpg" alt="Little did we know"></div>
+      <figcaption class="caption">Little did we know</figcaption>
+    </figure>
+
+    <figure class="polaroid">
+      <svg class="flower" viewBox="0 0 24 24"><g fill="#e7b6c7"><circle cx="12" cy="6" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/></g><circle cx="12" cy="12" r="3" fill="#c9a15a"/></svg>
+      <div class="frame"><img src="images/mirror.jpg" alt="Just the two of us"></div>
+      <figcaption class="caption">Just the two of us</figcaption>
+    </figure>
+
+  </main>
+
+  <footer>&mdash; happy anniversary, my love &mdash;</footer>
+
+  <script>
+    const ambient = document.getElementById('ambient');
+    const colors = ['10px','14px','8px','18px','12px'];
+    for(let i=0;i<14;i++){
+      const d = document.createElement('div');
+      d.className = 'dot';
+      const size = 6 + Math.random()*16;
+      d.style.width = size+'px';
+      d.style.height = size+'px';
+      d.style.left = Math.random()*100+'%';
+      d.style.top = Math.random()*100+'%';
+      d.style.animationDelay = (Math.random()*8)+'s';
+      d.style.animationDuration = (10+Math.random()*10)+'s';
+      ambient.appendChild(d);
+    }
+  </script>
+
+</body>
+</html>
